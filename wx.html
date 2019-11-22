@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector('.downlink').addEventListener('click', function () {
-                var loadDateTime = new Date(),
-                        href = location.href,
-                        appInnerUrlPrefix = 'http://a.app.qq.com/o/simple.jsp?pkgname=',
-                        newHref = href.substring(href.indexOf('//') + 2)
-                var isiOS = navigator.userAgent.match('iPad') || navigator.userAgent.match('iPhone') || navigator.userAgent.match(
-                                'iPod'),
-                        isAndroid = navigator.userAgent
-                                .match('Android'),
-                        isDesktop = !isiOS && !isAndroid;
-                if (isiOS) {
-                    newHref = appInnerUrlPrefix + "com.zhulogic.xita_home";
-                } else if (isAndroid) {
-                    newHref = appInnerUrlPrefix + "com.zhulogic.xita_home&g_f=991653";
-                } else {
-                    newHref = appInnerUrlPrefix + "com.zhulogic.xita_home&g_f=991653";
-                }
-                setTimeout(function () {
-                    console.log(newHref);
-                    var timeOutDateTime = new Date();
-                    if (!loadDateTime || timeOutDateTime - loadDateTime < 1210) {
-                        location.href = newHref;
-                    }
-                }, 1200);
-                location.href = 'zhulogic://';
-            }, false)
-        }, false)
-    </script>
+<meta http-equiv="Content-Disposition" content="attachment; filename='honpe.doc'">
+<meta http-equiv="Content-Type" content="application/vnd.ms-word;charset=utf-8">
+<title>this's a demo</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta content="false" name="twcClient" id="twcClient"/>
 </head>
 <body>
-<div class="downlink" style="background-color: red;height: 300px;width: 300px;">
- 
-</div>
+    <a class="app-download-btn" id="BtnClick" href="javascript:;">点此继续访问 </a>
 </body>
 </html>
+<!-- <script type="text/javascript">
+</script> -->
+<script>
+    var url = 'http://api.honpe.com:81/honpeapp/honpe.apk';//更改需要跳转的地址
+    document.querySelector('body').addEventListener('touchmove', function (event) {
+        event.preventDefault();
+    });
+    window.mobileUtil = (function(win, doc) {
+        var UA = navigator.userAgent,
+        isAndroid = /android|adr/gi.test(UA),
+        isIOS = /iphone|ipod|ipad/gi.test(UA) && !isAndroid,
+        isBlackBerry = /BlackBerry/i.test(UA),
+        isWindowPhone = /IEMobile/i.test(UA),
+        isMobile = isAndroid || isIOS || isBlackBerry || isWindowPhone;
+        return {
+            isAndroid: isAndroid,
+            isIOS: isIOS,
+            isMobile: isMobile,
+            isWeixin: /MicroMessenger/gi.test(UA),
+            isQQ: /QQ/gi.test(UA)
+        };
+    })(window, document);
+    if(mobileUtil.isWeixin){
+        if(mobileUtil.isIOS){
+            url = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
+            document.getElementById('BtnClick').href=url;
+        }else if(mobileUtil.isAndroid){
+            url = '?open=1';
+            document.getElementById('BtnClick').href=url;
+            var iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = url;
+            document.body.appendChild(iframe);
+        }
+    }else{
+        document.getElementById('BtnClick').href=url;
+        window.location.replace(url);
+    }
+</script>
